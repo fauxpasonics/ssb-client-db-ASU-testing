@@ -1,0 +1,19 @@
+CREATE TABLE [src].[Sync_TI_TK_TRANS_ITEM_EVENT_PAYMODE]
+(
+[ETLSID] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL,
+[SEASON] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL,
+[TRANS_NO] [bigint] NOT NULL,
+[VMC] [bigint] NOT NULL,
+[SVMC] [bigint] NOT NULL,
+[SSVMC] [bigint] NOT NULL,
+[E_PAY_TYPE] [varchar] (1) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[E_PAY_PAYMODE] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[E_PAY_PAMT] [numeric] (18, 2) NULL,
+[ZID] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[SOURCE_ID] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[EXPORT_DATETIME] [datetime] NULL,
+[ETL_Sync_Id] [int] NOT NULL IDENTITY(1, 1)
+)
+GO
+ALTER TABLE [src].[Sync_TI_TK_TRANS_ITEM_EVENT_PAYMODE] ADD CONSTRAINT [PK__Sync_TI___19364FD23BBFAC56] PRIMARY KEY CLUSTERED  ([ETL_Sync_Id])
+GO

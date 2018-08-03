@@ -1,0 +1,15 @@
+CREATE TABLE [dbo].[TIPRICELEVELMAP2]
+(
+[ID] [int] NOT NULL IDENTITY(1, 1),
+[REPORTCODE] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SEASON] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[ITEM] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[I_PT] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[I_PL] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[PL_CLASS] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[REQCONTRIB] [int] NOT NULL,
+[DON_ITEM] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DON_AMT] [numeric] (18, 2) NULL,
+[INSERT_DATE] [date] NOT NULL
+)
+GO

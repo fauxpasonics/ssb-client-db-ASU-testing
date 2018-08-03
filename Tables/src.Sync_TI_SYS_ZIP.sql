@@ -1,0 +1,15 @@
+CREATE TABLE [src].[Sync_TI_SYS_ZIP]
+(
+[ETL_Sync_Id] [int] NOT NULL IDENTITY(1, 1),
+[ETLSID] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL,
+[SYS_ZIP] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL,
+[CSZ] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[LAST_USER] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[LAST_DATETIME] [datetime] NULL,
+[ZID] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[SOURCE_ID] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[EXPORT_DATETIME] [datetime] NULL
+)
+GO
+ALTER TABLE [src].[Sync_TI_SYS_ZIP] ADD CONSTRAINT [PK__Sync_TI___19364FD2D9B038B6] PRIMARY KEY CLUSTERED  ([ETL_Sync_Id])
+GO

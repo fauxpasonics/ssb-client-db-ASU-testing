@@ -1,0 +1,47 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create PROC [dbo].[rptCustSDC_AdvanceIDReview] 
+
+AS
+
+BEGIN
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+SELECT ID_NUMBER, PREF_MAIL_NAME, DATE_OF_RECORD, TX_NUMBER, NET_LEGAL_AMOUNT, ALLOC_CODE, ALLOC_DESC, TRANS_SDCID, BIO_SDCID, SDC_TYPE, AdvanceID_of_TransSDCID, PrefMailName_of_TransSDCID, FootballSTH_Transaction
+FROM [ro].[vwAdvance_TransactionID_Review]
+
+END 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GO

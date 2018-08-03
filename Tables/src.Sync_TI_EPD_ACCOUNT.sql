@@ -1,0 +1,16 @@
+CREATE TABLE [src].[Sync_TI_EPD_ACCOUNT]
+(
+[ETL_Sync_Id] [int] NOT NULL IDENTITY(1, 1),
+[ETLSID] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL,
+[CUSTOMER] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL,
+[PIN] [bigint] NULL,
+[EMAIL_PREF] [varchar] (max) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[LAST_USER] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[LAST_DATETIME] [datetime] NULL,
+[ZID] [varchar] (16) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[SOURCE_ID] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[EXPORT_DATETIME] [datetime] NULL
+)
+GO
+ALTER TABLE [src].[Sync_TI_EPD_ACCOUNT] ADD CONSTRAINT [PK__Sync_TI___19364FD2920F3921] PRIMARY KEY CLUSTERED  ([ETL_Sync_Id])
+GO

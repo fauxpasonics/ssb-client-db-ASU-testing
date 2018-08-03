@@ -1,0 +1,35 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+
+
+
+
+
+
+CREATE FUNCTION [dbo].[State] (@CSZ NVARCHAR (MAX))  
+
+RETURNS NVARCHAR(MAX) 
+
+BEGIN 
+ 
+SET @CSZ =  
+
+ 
+  CASE WHEN @csz LIKE '%, __ %' THEN SUBSTRING(@csz, (CHARINDEX(',', @csz) + 2 ),2)     
+
+
+ ELSE  '' END
+
+RETURN @CSZ 
+
+END 
+
+
+
+
+
+
+GO

@@ -1,0 +1,38 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+
+
+
+
+
+
+
+CREATE FUNCTION [dbo].[Zip] (@CSZ NVARCHAR (MAX))  
+
+RETURNS NVARCHAR(MAX) 
+
+BEGIN 
+ 
+
+
+SET @CSZ =  CASE WHEN @CSZ LIKE '% %' AND @csz LIKE '%[0-9]%' THEN 
+
+ 
+  CASE WHEN @csz LIKE '% %' THEN RIGHT(@csz, (CHARINDEX(' ',REVERSE(@csz))-1)) END    
+
+
+ ELSE  '' END
+
+RETURN @CSZ 
+
+END 
+
+
+
+
+
+
+GO

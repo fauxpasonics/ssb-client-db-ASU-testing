@@ -1,0 +1,32 @@
+CREATE TABLE [dbo].[SFMC_Default]
+(
+[EmailAddress] [varchar] (254) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ContactID] [varchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PacPrimary] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PacID] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[AdvanceID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FirstName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[LastName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[City] [varchar] (200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[State] [varchar] (200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ZipCode] [varchar] (25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Gender] [varchar] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Age] [int] NULL,
+[BirthDate] [date] NULL,
+[CustomerType] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PrimaryRecordType] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[RecordTypes] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[RecordStatus] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Advance_OtherID_Type] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PriorityPoints_Cumulative] [int] NULL,
+[PriorityPoints_Consecutive] [int] NULL,
+[PriorityPoints_SeasonTickets] [int] NULL,
+[PriorityPoints_LetterWinner] [int] NULL,
+[PriorityPoints_Misc] [int] NULL,
+[PriorityPointsTotal] [int] NULL,
+[PriorityPoints_Rank] [int] NULL,
+[Active_SDC_Member] [bit] NULL,
+[Current_SDC_MemberLevel] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[JoinDate] [date] NULL
+)
+GO

@@ -1,0 +1,7 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+CREATE VIEW [ro].[vw_FactAvailSeats] AS ( SELECT * FROM dbo.FactAvailSeats_V2 (NOLOCK) )
+GO

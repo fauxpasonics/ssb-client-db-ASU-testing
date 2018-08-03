@@ -1,0 +1,20 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+
+CREATE VIEW [etl].[vw_Load_PAC_DimScanGate] AS (
+
+	SELECT DISTINCT
+		  a.SEASON [ETL__SSID_PAC_SEASON]
+		  , a.SCAN_GATE [ETL__SSID_PAC_SCAN_GATE]
+		  , a.SCAN_GATE [ScanGateCode]
+		  ,a.SCAN_GATE [ScanGateName]
+	FROM    dbo.TK_BC a (NOLOCK)
+	WHERE ISNULL(a.SCAN_GATE, '') <> ''
+
+)
+
+
+GO

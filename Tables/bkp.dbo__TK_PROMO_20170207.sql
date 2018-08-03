@@ -1,0 +1,15 @@
+CREATE TABLE [bkp].[dbo__TK_PROMO_20170207]
+(
+[ETLSID] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL,
+[PROMO] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL,
+[NAME] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[LAST_USER] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[LAST_DATETIME] [datetime] NULL,
+[ZID] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CS_AS NULL,
+[SOURCE_ID] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[EXPORT_DATETIME] [datetime] NULL,
+[ETL_Sync_DeltaHashKey] [binary] (32) NULL
+)
+GO
+ALTER TABLE [bkp].[dbo__TK_PROMO_20170207] ADD CONSTRAINT [PK_TK_PROMO_c84324cd-9492-433d-8a37-58dc4b219c4a] PRIMARY KEY CLUSTERED  ([ETLSID], [PROMO])
+GO

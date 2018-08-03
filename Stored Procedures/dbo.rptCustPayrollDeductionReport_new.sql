@@ -1,0 +1,198 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+
+
+--EXEC rptCustPayrollDeductionReport 'F14', '2013-01-01', '2014-12-31'
+
+
+
+
+CREATE   PROCEDURE [dbo].[rptCustPayrollDeductionReport_new]
+
+(
+@Season VARCHAR (MAX)
+--,@StartDate DATETIME
+--,@EndDate DATETIME
+)
+
+WITH RECOMPILE
+
+AS 
+
+BEGIN 
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+/*
+DROP TABLE #pSeason
+DROP TABLE #a
+DROP TABLE #b
+DROP TABLE #c
+*/
+
+DECLARE @SP_Season varchar (max) = @Season 
+--DECLARE @SP_StartDate date = @StartDate
+--DECLARE @SP_EndDate date = @EndDate
+
+--SET @SP_Season = 'F14'
+--Set @SP_StartDate = '2013-01-01'
+--Set @SP_EndDate = '2014-12-31'
+
+
+CREATE TABLE #pSEASON (Season varchar (15))
+INSERT INTO #pSEASON SELECT * FROM dbo.Split (@SP_Season,',')
+
+SELECT
+	SEASON
+	,CUSTOMER
+	,CUSTOMER_NAME
+	,ITEM
+	,ITEM_NAME
+	,REVENUE_TYPE
+	,PAYMODE
+	,PAYMODE_NAME
+	,TYPE_NAME
+	,I_SPECIAL
+	,PAYAMT
+INTO #a
+FROM
+
+(
+SELECT
+	tkTransItem.SEASON
+	,tkTrans.CUSTOMER 
+	,pdPatron.NAME CUSTOMER_NAME 
+	,tkTransItem.ITEM COLLATE DATABASE_DEFAULT AS ITEM
+	,tkItem.NAME COLLATE DATABASE_DEFAULT AS ITEM_NAME
+	,CASE WHEN tkTransItem.ITEM LIKE 'DON%' THEN 'SDC Gift Revenue' ELSE 'ASU Ticket Related Revenue' END COLLATE DATABASE_DEFAULT AS REVENUE_TYPE
+	,tkTransItemPaymode.I_PAY_PAYMODE PAYMODE
+	,tkPaymode.NAME PAYMODE_NAME
+	,tkPaymode.TYPE_NAME 
+	,tkOdet.I_SPECIAL COLLATE DATABASE_DEFAULT AS I_SPECIAL
+	,ISNULL(tkTransItemPaymode.I_PAY_PAMT,0) PAYAMT	 
+FROM dbo.TK_TRANS tkTrans
+INNER JOIN dbo.TK_TRANS_ITEM tkTransItem
+	ON tkTrans.Season = tkTransItem.Season
+	AND tkTrans.Trans_No = tkTransItem.Trans_No
+INNER JOIN dbo.TK_TRANS_ITEM_PAYMODE tkTransItemPaymode 
+	ON tkTransItem.SEASON = tkTransItemPaymode.SEASON 
+	AND tkTransItem.TRANS_NO = tkTransItemPaymode.TRANS_NO 
+	AND tkTransItem.VMC = tkTransItemPaymode.VMC
+INNER JOIN PD_PATRON pdPatron 
+	ON tkTrans.CUSTOMER = pdPatron.PATRON 
+INNER JOIN  dbo.TK_ITEM tkItem
+	ON tkTransItem.SEASON = tkItem.SEASON AND tkTransItem.ITEM = tkItem.ITEM
+INNER JOIN  #pSeason Seasons
+	ON tkTrans.SEASON = Seasons.Season  collate SQL_Latin1_General_CP1_CI_AS
+LEFT JOIN dbo.TK_PAYMODE tkPaymode 
+	ON tkTransItemPaymode.I_PAY_PAYMODE = tkPaymode.PAYMODE
+LEFT JOIN 
+		(SELECT tkOdet.SEASON, CUSTOMER, ITEM, MAX(I_SPECIAL) I_SPECIAL 
+		 FROM dbo.TK_ODET tkOdet 
+		 INNER JOIN  #pSeason Seasons
+		 ON Seasons.SEASON collate SQL_Latin1_General_CP1_CI_AS = tkOdet.SEASON 
+		 AND I_SPECIAL IS NOT NULL 
+		 GROUP BY tkOdet.SEASON, CUSTOMER, ITEM) tkOdet 
+	ON  tkTrans.SEASON = tkOdet.SEASON 
+	AND tkTrans.CUSTOMER = tkOdet.CUSTOMER 
+	AND tkTransItem.ITEM = tkOdet.ITEM 
+WHERE ISNULL(tkTransItemPaymode.I_PAY_PAYMODE,9999999) IN ('PD')
+	  --AND tkTrans.DATE >= @SP_StartDate 
+	  --AND tkTrans.DATE <= @SP_EndDate
+
+
+UNION  ALL 
+
+SELECT  
+	tkTrans.SEASON
+	,tkTrans.CUSTOMER
+	,pdPatron.NAME CUSTOMER_NAME
+	,'PF' COLLATE DATABASE_DEFAULT AS ITEM
+	,'Processing Fee' COLLATE DATABASE_DEFAULT AS ITEM_NAME
+	,'ASU Ticket Related Revenue' COLLATE DATABASE_DEFAULT AS REVENUE_TYPE
+	,CHG_PAY_MODE PAYMODE
+	,tkPaymode.NAME PAYMODE_NAME
+	,tkPaymode.TYPE_NAME 
+	,'' COLLATE DATABASE_DEFAULT AS I_SPECIAL
+	,ISNULL(CHG_PAY_AMT,0) AS PAYAMT
+FROM TK_TRANS tkTrans
+	INNER JOIN #pSEASON 
+		ON tkTrans.SEASON = #pSEASON.Season collate SQL_Latin1_General_CP1_CI_AS  
+	INNER JOIN dbo.TK_TRANS_CHG tkTransChg 
+		ON tkTrans.SEASON =  tkTransChg.SEASON 
+		AND tkTrans.TRANS_NO =  tkTransChg.TRANS_NO
+	INNER JOIN dbo.TK_PAYMODE tkPayMode
+		ON tkTransChg.CHG_PAY_MODE = tkPayMode.PAYMODE
+	INNER JOIN PD_PATRON pdPatron 
+		ON tkTrans.CUSTOMER = pdPatron.PATRON 	
+	WHERE CHG_PAY_AMT <> 0
+	--AND tkTrans.DATE >= @SP_StartDate AND tkTrans.DATE <= @SP_EndDate 
+	AND CHG_PAY_MODE IN ('PD') 
+
+) A
+
+
+
+
+SELECT
+	SEASON
+	,CUSTOMER
+	,CUSTOMER_NAME
+	,ITEM
+	,ITEM_NAME
+	,REVENUE_TYPE
+	,PAYMODE
+	,PAYMODE_NAME
+	,TYPE_NAME
+	,I_SPECIAL
+	,SUM(ISNULL(PAYAMT,0)) PAYAMT
+INTO #b 
+FROM #a
+GROUP BY
+	SEASON
+	,CUSTOMER
+	,CUSTOMER_NAME
+	,ITEM
+	,ITEM_NAME
+	,REVENUE_TYPE
+	,PAYMODE
+	,PAYMODE_NAME
+	,TYPE_NAME
+	,I_SPECIAL	
+ORDER BY
+	CAST(CUSTOMER AS INT) ASC
+	,REVENUE_TYPE
+
+
+SELECT
+SEASON,
+CUSTOMER,
+CUSTOMER_NAME,
+ITEM,
+ITEM_NAME,
+PAYMODE,
+PAYMODE_NAME,
+[TYPE_NAME],
+I_SPECIAL,
+[ASU Ticket Related Revenue] AS [AsuTicket],
+[SDC Gift Revenue] AS [SdcGift]
+FROM
+(
+SELECT *
+FROM #b
+WHERE PAYAMT <> 0
+) pay
+PIVOT (SUM(PAYAMT) FOR REVENUE_TYPE IN ([ASU Ticket Related Revenue],[SDC Gift Revenue])) p
+END
+
+
+
+
+
+
+
+
+GO

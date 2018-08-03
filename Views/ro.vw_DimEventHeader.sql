@@ -1,0 +1,6 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE VIEW [ro].[vw_DimEventHeader] AS ( SELECT * FROM dbo.DimEventHeader_V2 (NOLOCK) )
+GO

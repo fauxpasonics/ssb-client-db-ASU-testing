@@ -1,0 +1,5 @@
+IF NOT EXISTS (SELECT * FROM master.dbo.syslogins WHERE loginname = N'SSBINFO\zfrick')
+CREATE LOGIN [SSBINFO\zfrick] FROM WINDOWS
+GO
+CREATE USER [SSBINFO\zfrick] FOR LOGIN [SSBINFO\zfrick]
+GO

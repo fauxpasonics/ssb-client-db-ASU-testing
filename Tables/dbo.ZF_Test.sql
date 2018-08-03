@@ -1,0 +1,8 @@
+CREATE TABLE [dbo].[ZF_Test]
+(
+[Id] [int] NOT NULL IDENTITY(1, 1),
+[MyValue] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+)
+GO
+ALTER TABLE [dbo].[ZF_Test] ADD CONSTRAINT [PK__ZF_Test__3214EC0767648B07] PRIMARY KEY CLUSTERED  ([Id])
+GO

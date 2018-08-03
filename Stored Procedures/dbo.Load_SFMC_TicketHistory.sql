@@ -1,0 +1,15 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+CREATE PROCEDURE  [dbo].[Load_SFMC_TicketHistory]
+AS
+
+TRUNCATE TABLE dbo.SFMC_TicketHistory
+
+INSERT INTO dbo.SFMC_TicketHistory
+EXEC dbo.sp_SFMC_TicketHistory
+
+
+GO

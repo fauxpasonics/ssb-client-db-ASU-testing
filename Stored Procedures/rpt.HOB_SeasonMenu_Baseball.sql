@@ -1,0 +1,12 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROCEDURE [rpt].[HOB_SeasonMenu_Baseball]
+AS
+BEGIN
+SELECT *
+FROM rpt.vw_HOB_SeasonMenu_Baseball
+ORDER BY SeasonYear
+END
+GO

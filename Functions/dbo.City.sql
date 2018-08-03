@@ -1,0 +1,34 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+
+
+
+
+
+CREATE FUNCTION [dbo].[City] (@CSZ NVARCHAR (MAX))  
+
+RETURNS NVARCHAR(MAX) 
+
+BEGIN 
+ 
+
+SET @CSZ =  CASE WHEN @CSZ LIKE '%,%' THEN 
+
+ LEFT(@CSZ,(CHARINDEX (',',@CSZ)-1))   
+
+
+ ELSE  '' END
+
+RETURN @CSZ 
+
+END 
+
+
+
+
+
+
+GO

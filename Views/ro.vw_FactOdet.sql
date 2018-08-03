@@ -1,0 +1,11 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+
+
+
+CREATE VIEW [ro].[vw_FactOdet] AS ( SELECT * FROM dbo.FactOdet_V2 (NOLOCK) )
+
+GO

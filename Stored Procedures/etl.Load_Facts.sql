@@ -1,0 +1,21 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROCEDURE [etl].[Load_Facts]
+(
+	@BatchId UNIQUEIDENTIFIER = '00000000-0000-0000-0000-000000000000',
+	@Options NVARCHAR(max) = NULL
+)
+
+AS
+BEGIN
+
+	EXEC [etl].[Load_FactTicketSales]
+
+
+	EXEC [etl].[Load_FactOdet]
+
+
+END
+GO
